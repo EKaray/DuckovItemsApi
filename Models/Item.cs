@@ -23,4 +23,6 @@ public class Item
     public int Weight { get; set; }
 
     public int MaxQuantity { get; set; } = 1;
+
+    public string? Image { get; set; }
 }

@@ -15,6 +15,7 @@ public class ItemSpawn
     [Required]
     public Map Map { get; set; } = null!;
 
+    [Required]
     public SpawnType SpawnType { get; set; } = SpawnType.Container;
 
     public int? ContainerId { get; set; }
