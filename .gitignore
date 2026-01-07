@@ -21,3 +21,6 @@ Thumbs.db
 *.nupkg
 *.snupkg
 packages/
+
+# Data
+App_Data/
