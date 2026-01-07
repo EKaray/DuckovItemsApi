@@ -10,5 +10,5 @@ public class Container
     [MaxLength(100)]
     public required string Name { get; set; }
 
-    ICollection<ItemSpawn> ItemSpawns { get; set; } = [];
+    public ICollection<ItemSpawn> ItemSpawns { get; set; } = [];
 }
