@@ -1,6 +1,7 @@
 using System.ComponentModel.DataAnnotations;
+using DuckovItemsApi.Items.Models;
 
-namespace DuckovItemsApi.Models;
+namespace DuckovItemsApi.Categories.Models;
 
 public class Category
 {

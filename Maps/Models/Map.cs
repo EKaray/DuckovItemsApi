@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace DuckovItemsApi.Models;
+namespace DuckovItemsApi.Maps.Models;
 
 public class Map
 {

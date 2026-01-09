@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
-
-namespace DuckovItemsApi.Models;
+using DuckovItemsApi.Categories.Models;
+namespace DuckovItemsApi.Items.Models;
 
 public class Item
 {
@@ -10,9 +10,8 @@ public class Item
     [MaxLength(100)]
     public required string Name { get; set; }
 
-    [Required]
     public int CategoryId { get; set; }
-    public required Category Category { get; set; }
+    public Category Category { get; set; } = null!;
 
     [Required]
     [Range(1, int.MaxValue)]
@@ -20,9 +19,11 @@ public class Item
 
     [Required]
     [Range(1, int.MaxValue)]
-    public int Weight { get; set; }
+    public double Weight { get; set; }
 
     public int MaxQuantity { get; set; } = 1;
 
     public string? Image { get; set; }
+
+    public ICollection<ItemSpawn> Spawns { get; set; } = [];
 }

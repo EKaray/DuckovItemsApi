@@ -1,4 +1,7 @@
-using DuckovItemsApi.Models;
+using DuckovItemsApi.Categories.Models;
+using DuckovItemsApi.Containers.Models;
+using DuckovItemsApi.Items.Models;
+using DuckovItemsApi.Maps.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace DuckovItemsApi.Data;
