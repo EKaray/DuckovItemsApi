@@ -7,5 +7,5 @@ public class ItemSummary
     public required string Category { get; init; }
 
     public string? Image { get; init; }
-    public int ValuePerSlot { get; init; }
+    public double ValuePerSlot { get; init; }
 }

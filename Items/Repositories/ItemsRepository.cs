@@ -32,4 +32,18 @@ public class ItemsRepository
 
         return item;
     }
+
+    // NOTE: Empty query intentionally returns all items.
+    // If search behavior changes (e.g. minimum length),
+    // revisit this condition.  
+    public IReadOnlyList<Item> SearchWithCategory(string? query, int skip, int take)
+    {
+        query ??= "";
+        return [.. _dbContext.Items
+            .AsNoTracking()
+            .Include(item => item.Category)
+            .Where(item => EF.Functions.Like(item.Name, $"%{query}%"))
+            .Skip(skip)
+            .Take(take)];
+    }
 }
