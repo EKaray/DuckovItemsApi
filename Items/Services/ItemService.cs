@@ -26,18 +26,17 @@ public class ItemService
         return DetailsMapper(item);
     }
 
-    public IReadOnlyList<ItemSummary> SearchByName(string? query, int page, int count)
+    public IReadOnlyList<ItemSummary> SearchByName(IteamSearchQuery query)
     {
-        count = Math.Min(count, 100); // Prevent huge queries
-        var skip = (page - 1) * count;
+        var skip = (query.PageNumber - 1) * query.PageSize;
 
-        var items = _itemRepository.SearchWithCategory(query, skip, count);
+        var items = _itemRepository.SearchWithCategory(query.Name, skip, query.PageSize);
         if (!items.Any())
         {
-            if (!string.IsNullOrEmpty(query))
+            if (!string.IsNullOrEmpty(query.Name))
             {
                 // Only log non-empty search terms
-                _logger.LogInformation("No items found for query: {query}", query);
+                _logger.LogInformation("No items found for query: {queryName}", query.Name);
                 // TODO: push metric to telemetry system
             }
 

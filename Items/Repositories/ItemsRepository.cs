@@ -32,7 +32,7 @@ public class ItemsRepository
         return [.. _dbContext.Items
             .AsNoTracking()
             .Include(item => item.Category)
-            .Where(item => EF.Functions.Like(item.Name, $"%{query}%"))
+            .Where(item => EF.Functions.Like(item.Name, $"%{query.Trim()}%"))
             .Skip(skip)
             .Take(take)];
     }

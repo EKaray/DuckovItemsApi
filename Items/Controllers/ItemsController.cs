@@ -41,23 +41,26 @@ public class ItemsController : ControllerBase
     }
 
     /// <summary>
-    /// Search items by name with optional paging.
+    /// Searches items by name with optional paging.
     /// </summary>
-    /// <param name="query">Optional search term</param>
-    /// <param name="page">Page number, 1-based</param>
-    /// <param name="count">Items per page</param>
-    /// <returns>List of ItemSummary</returns>
+    /// <param name="query">
+    /// Query parameters for the search:
+    /// - <c>Name</c>: optional search term; can include letters, numbers, spaces, dots (.), dashes (-), and colons (:); max length enforced by validation.
+    /// - <c>PageNumber</c>: 1-based page number (default: 1).
+    /// - <c>PageSize</c>: number of items per page (default: 20, max: 100).
+    /// </param>
+    /// <returns>List of <see cref="ItemSummary"/> objects matching the search criteria.</returns>
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public ActionResult<IReadOnlyList<ItemSummary>> SearchItems(string? query, int page = 1, int count = 10)
+    public ActionResult<IReadOnlyList<ItemSummary>> SearchItems([FromQuery] IteamSearchQuery query)
     {
-        if (page <= 0 || count <= 0)
+        if (!ModelState.IsValid)
         {
             return BadRequest();
         }
 
-        var items = _itemService.SearchByName(query, page, count);
+        var items = _itemService.SearchByName(query);
         return Ok(items);
     }
 }
