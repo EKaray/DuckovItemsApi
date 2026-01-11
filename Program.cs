@@ -1,3 +1,4 @@
+using DuckovItemsApi.Categories;
 using DuckovItemsApi.Data;
 using DuckovItemsApi.Items;
 using Microsoft.EntityFrameworkCore;
@@ -12,6 +13,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddItemsDependencies();
+builder.Services.AddCategoriesDpendencies();
 
 builder.Services.AddDbContext<DuckovDbContext>(options =>
 {

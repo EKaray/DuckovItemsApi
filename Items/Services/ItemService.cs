@@ -1,4 +1,5 @@
 using DuckovItemsApi.Items.Dtos;
+using DuckovItemsApi.Items.Models;
 using DuckovItemsApi.Items.Repositories;
 
 namespace DuckovItemsApi.Items.Services;
@@ -14,7 +15,7 @@ public class ItemService
         _logger = logger;
     }
 
-    public ItemDetails? GetItemById(int id)
+    public ItemDetails? GetById(int id)
     {
         var item = _itemRepository.GetByIdWithIncludes(id);
         if (item == null)
@@ -22,20 +23,10 @@ public class ItemService
             return null;
         }
 
-        return new ItemDetails()
-        {
-            Id = item.Id,
-            Name = item.Name,
-            Category = item.Category.Name,
-            Value = item.Value,
-            Weight = item.Weight,
-            ValuePerSlot = CalculateValuePerSlot(item.Value, item.MaxQuantity, item.Weight),
-            Image = item.Image,
-            Containers = [.. item.Spawns.Select(x => x.Container.Name)]
-        };
+        return DetailsMapper(item);
     }
 
-    public IReadOnlyList<ItemSummary> SearchItems(string? query, int page, int count)
+    public IReadOnlyList<ItemSummary> SearchByName(string? query, int page, int count)
     {
         count = Math.Min(count, 100); // Prevent huge queries
         var skip = (page - 1) * count;
@@ -53,14 +44,35 @@ public class ItemService
             return [];
         }
 
-        return [.. items.Select(item => new ItemSummary()
+        var itemSummaries = items.Select(SummaryMapper);
+        return [.. itemSummaries];
+    }
+
+    public static ItemSummary SummaryMapper(Item item)
+    {
+        return new ItemSummary
         {
             Id = item.Id,
             Name = item.Name,
             Category = item.Category.Name,
+            ValuePerSlot = CalculateValuePerSlot(item.Value, item.MaxQuantity, item.Weight),
+            Image = item.Image
+        };
+    }
+
+    public static ItemDetails DetailsMapper(Item item)
+    {
+        return new ItemDetails()
+        {
+            Id = item.Id,
+            Name = item.Name,
+            Category = item.Category.Name,
+            Value = item.Value,
+            Weight = item.Weight,
+            ValuePerSlot = CalculateValuePerSlot(item.Value, item.MaxQuantity, item.Weight),
             Image = item.Image,
-            ValuePerSlot = CalculateValuePerSlot(item.Value, item.MaxQuantity, item.Weight)
-        })];
+            Containers = [.. item.Spawns.Select(x => x.Container.Name)]
+        };
     }
 
     private static double CalculateValuePerSlot(int value, int maxQuantity, double weight)
@@ -74,8 +86,8 @@ public class ItemService
         int effectiveUnits = Math.Min(unitsBySlots, unitsByWeight);
         int effectiveSlotsUsed = (int)Math.Ceiling((double)effectiveUnits / maxQuantity);
 
-        double effectiveValue = effectiveUnits * value;
+        double valuePerSlot = effectiveUnits * value / effectiveSlotsUsed;
 
-        return effectiveValue / effectiveSlotsUsed;
+        return valuePerSlot;
     }
 }

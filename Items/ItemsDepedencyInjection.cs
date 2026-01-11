@@ -3,7 +3,7 @@ using DuckovItemsApi.Items.Services;
 
 namespace DuckovItemsApi.Items;
 
-public static class DepedencyInjection
+public static class ItemsDepedencyInjection
 {
     public static IServiceCollection AddItemsDependencies(this IServiceCollection services)
     {

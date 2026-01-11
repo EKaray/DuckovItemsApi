@@ -18,20 +18,20 @@ public class ItemsController : ControllerBase
     /// <summary>
     /// Get every information of item by id.
     /// </summary>
-    /// <param name="id">Id of item/param>
+    /// <param name="id">Id of item</param>
     /// <returns>Single ItemDetails</returns>
     [HttpGet("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public ActionResult<ItemDetails> GetItemById(int id)
+    public ActionResult<ItemDetails> GetById(int id)
     {
         if (id <= 0)
         {
             return BadRequest();
         }
 
-        var item = _itemService.GetItemById(id);
+        var item = _itemService.GetById(id);
         if (item == null)
         {
             return NotFound();
@@ -57,7 +57,7 @@ public class ItemsController : ControllerBase
             return BadRequest();
         }
 
-        var items = _itemService.SearchItems(query, page, count);
+        var items = _itemService.SearchByName(query, page, count);
         return Ok(items);
     }
 }
