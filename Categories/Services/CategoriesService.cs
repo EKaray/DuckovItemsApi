@@ -13,9 +13,9 @@ public class CategoriesService
         _categoriesRepository = categoriesRepository;
     }
 
-    public CategoryWithItems? GetByIdWithItems(int id)
+    public async Task<CategoryWithItems?> GetByIdWithItems(int id)
     {
-        var category = _categoriesRepository.GetByIdWithIncludes(id);
+        var category = await _categoriesRepository.GetByIdWithIncludes(id);
         if (category == null)
         {
             return null;
@@ -31,16 +31,19 @@ public class CategoriesService
         return categoryWithItems;
     }
 
-    public IReadOnlyCollection<CategorySummary> GetCategories()
+    public async Task<IReadOnlyCollection<CategorySummary>> GetCategories()
     {
-        var categories = _categoriesRepository
-            .GetCategories()
+        var categories = await _categoriesRepository
+            .GetCategories();
+
+        var categorySummaries = categories
             .Select(category => new CategorySummary
             {
                 Id = category.Id,
                 Name = category.Name
-            });
+            })
+            .ToList();
 
-        return [.. categories];
+        return categorySummaries;
     }
 }

@@ -24,14 +24,14 @@ public class ItemsController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public ActionResult<ItemDetails> GetById(int id)
+    public async Task<ActionResult<ItemDetails>> GetById(int id)
     {
         if (id <= 0)
         {
             return BadRequest();
         }
 
-        var item = _itemService.GetById(id);
+        var item = await _itemService.GetById(id);
         if (item == null)
         {
             return NotFound();
@@ -53,14 +53,14 @@ public class ItemsController : ControllerBase
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public ActionResult<IReadOnlyList<ItemSummary>> SearchItems([FromQuery] IteamSearchQuery query)
+    public async Task<ActionResult<IReadOnlyList<ItemSummary>>> SearchItems([FromQuery] IteamSearchQuery query)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest();
         }
 
-        var items = _itemService.SearchByName(query);
+        var items = await _itemService.SearchByName(query);
         return Ok(items);
     }
 }

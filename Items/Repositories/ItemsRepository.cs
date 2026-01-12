@@ -13,27 +13,28 @@ public class ItemsRepository
         _dbContext = dbContext;
     }
 
-    public Item? GetByIdWithIncludes(int id)
+    public async Task<Item?> GetByIdWithIncludes(int id)
     {
-        return _dbContext.Items
+        return await _dbContext.Items
             .AsNoTracking()
             .Include(item => item.Category)
             .Include(item => item.Spawns)
                 .ThenInclude(spawn => spawn.Container)
-            .FirstOrDefault(item => item.Id == id);
+            .FirstOrDefaultAsync(item => item.Id == id);
     }
 
     // NOTE: Empty query intentionally returns all items.
     // If search behavior changes (e.g. minimum length),
     // revisit this condition.  
-    public IReadOnlyList<Item> SearchWithCategory(string? query, int skip, int take)
+    public async Task<IReadOnlyList<Item>> SearchWithCategory(string? query, int skip, int take)
     {
         query ??= "";
-        return [.. _dbContext.Items
+        return await _dbContext.Items
             .AsNoTracking()
             .Include(item => item.Category)
             .Where(item => EF.Functions.Like(item.Name, $"%{query.Trim()}%"))
             .Skip(skip)
-            .Take(take)];
+            .Take(take)
+            .ToListAsync();
     }
 }

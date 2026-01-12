@@ -13,19 +13,19 @@ public class CategoriesRepository
         _dbContext = dbContext;
     }
 
-    public Category? GetByIdWithIncludes(int id)
+    public async Task<Category?> GetByIdWithIncludes(int id)
     {
-        return _dbContext.Categories
+        return await _dbContext.Categories
             .AsNoTracking()
             .Include(categories => categories.Items)
-            .FirstOrDefault(category => category.Id == id);
+            .FirstOrDefaultAsync(category => category.Id == id);
     }
 
-    public IReadOnlyCollection<Category> GetCategories()
+    public async Task<IReadOnlyCollection<Category>> GetCategories()
     {
-        var categories = _dbContext.Categories
+        var categories = await _dbContext.Categories
             .AsNoTracking()
-            .ToList();
+            .ToListAsync();
 
         return categories;
     }

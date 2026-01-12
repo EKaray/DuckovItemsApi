@@ -15,9 +15,9 @@ public class ItemService
         _logger = logger;
     }
 
-    public ItemDetails? GetById(int id)
+    public async Task<ItemDetails?> GetById(int id)
     {
-        var item = _itemRepository.GetByIdWithIncludes(id);
+        var item = await _itemRepository.GetByIdWithIncludes(id);
         if (item == null)
         {
             return null;
@@ -26,11 +26,11 @@ public class ItemService
         return DetailsMapper(item);
     }
 
-    public IReadOnlyList<ItemSummary> SearchByName(IteamSearchQuery query)
+    public async Task<IReadOnlyList<ItemSummary>> SearchByName(IteamSearchQuery query)
     {
         var skip = (query.PageNumber - 1) * query.PageSize;
 
-        var items = _itemRepository.SearchWithCategory(query.Name, skip, query.PageSize);
+        var items = await _itemRepository.SearchWithCategory(query.Name, skip, query.PageSize);
         if (!items.Any())
         {
             if (!string.IsNullOrEmpty(query.Name))
@@ -43,8 +43,11 @@ public class ItemService
             return [];
         }
 
-        var itemSummaries = items.Select(SummaryMapper);
-        return [.. itemSummaries];
+        var itemSummaries = items
+            .Select(SummaryMapper)
+            .ToList();
+
+        return itemSummaries;
     }
 
     public static ItemSummary SummaryMapper(Item item)

@@ -24,14 +24,14 @@ public class CategoriesController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public ActionResult<CategoryWithItems> GetByIdWithItems(int id)
+    public async Task<ActionResult<CategoryWithItems>> GetByIdWithItems(int id)
     {
         if (id <= 0)
         {
             return BadRequest();
         }
 
-        var category = _categoriesService.GetByIdWithItems(id);
+        var category = await _categoriesService.GetByIdWithItems(id);
         if (category == null)
         {
             return NotFound();
@@ -46,9 +46,9 @@ public class CategoriesController : ControllerBase
     /// <returns>List of CategorySummary</returns>
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public ActionResult<IReadOnlyCollection<CategorySummary>> GetCategories()
+    public async Task<ActionResult<IReadOnlyCollection<CategorySummary>>> GetCategories()
     {
-        var categories = _categoriesService.GetCategories();
+        var categories = await _categoriesService.GetCategories();
         return Ok(categories);
     }
 }
