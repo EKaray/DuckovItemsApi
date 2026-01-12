@@ -1,5 +1,6 @@
 using DuckovItemsApi.Categories;
 using DuckovItemsApi.Data;
+using DuckovItemsApi.Handlers;
 using DuckovItemsApi.Items;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,7 +14,9 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddItemsDependencies();
-builder.Services.AddCategoriesDpendencies();
+builder.Services.AddCategoriesDependencies();
+
+builder.Services.AddExceptionHandlers();
 
 builder.Services.AddDbContext<DuckovDbContext>(options =>
 {
@@ -44,6 +47,7 @@ using (var scope = app.Services.CreateScope())
 }
 
 app.UseHttpsRedirection();
+app.UseExceptionHandler();
 
 app.MapControllers();
 
