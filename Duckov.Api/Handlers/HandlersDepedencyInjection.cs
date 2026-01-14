@@ -1,5 +1,5 @@
 
-namespace DuckovItemsApi.Handlers;
+namespace Duckov.Api.Handlers;
 
 public static class HandlersDepedencyInjection
 {

@@ -1,6 +1,6 @@
-using DuckovItemsApi.Items.Dtos;
+using Duckov.Api.Items.Dtos;
 
-namespace DuckovItemsApi.Categories.Dtos;
+namespace Duckov.Api.Categories.Dtos;
 
 public class CategoryWithItems
 {

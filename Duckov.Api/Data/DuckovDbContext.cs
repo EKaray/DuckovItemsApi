@@ -1,10 +1,10 @@
-using DuckovItemsApi.Categories.Models;
-using DuckovItemsApi.Containers.Models;
-using DuckovItemsApi.Items.Models;
-using DuckovItemsApi.Maps.Models;
+using Duckov.Api.Categories.Models;
+using Duckov.Api.Containers.Models;
+using Duckov.Api.Items.Models;
+using Duckov.Api.Maps.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace DuckovItemsApi.Data;
+namespace Duckov.Api.Data;
 
 public class DuckovDbContext : DbContext
 {

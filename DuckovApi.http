@@ -1,6 +1,6 @@
-@DuckovItemsApi_HostAddress = http://localhost:5072
+@Duckov.Api_HostAddress = http://localhost:5072
 
-GET {{DuckovItemsApi_HostAddress}}/weatherforecast/
+GET {{Duckov.Api_HostAddress}}/weatherforecast/
 Accept: application/json
 
 ###

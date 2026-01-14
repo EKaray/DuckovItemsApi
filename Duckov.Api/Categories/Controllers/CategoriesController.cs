@@ -1,8 +1,8 @@
-using DuckovItemsApi.Categories.Dtos;
-using DuckovItemsApi.Categories.Services;
+using Duckov.Api.Categories.Dtos;
+using Duckov.Api.Categories.Services;
 using Microsoft.AspNetCore.Mvc;
 
-namespace DuckovItemsApi.Categories.Controllers;
+namespace Duckov.Api.Categories.Controllers;
 
 [ApiController]
 [Route("Categories")]

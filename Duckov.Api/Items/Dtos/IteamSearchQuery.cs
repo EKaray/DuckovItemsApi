@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
-using DuckovItemsApi.Items.Validations;
+using Duckov.Api.Items.Validations;
 
-namespace DuckovItemsApi.Items.Dtos;
+namespace Duckov.Api.Items.Dtos;
 
 public class IteamSearchQuery
 {

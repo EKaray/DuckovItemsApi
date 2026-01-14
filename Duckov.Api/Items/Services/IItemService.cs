@@ -1,6 +1,6 @@
-using DuckovItemsApi.Items.Dtos;
+using Duckov.Api.Items.Dtos;
 
-namespace DuckovItemsApi.Items.Services;
+namespace Duckov.Api.Items.Services;
 
 public interface IItemService
 {

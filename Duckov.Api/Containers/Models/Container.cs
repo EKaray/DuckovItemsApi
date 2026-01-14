@@ -1,8 +1,8 @@
 using System.ComponentModel.DataAnnotations;
-using DuckovItemsApi.Items.Models;
-using DuckovItemsApi.Maps.Models;
+using Duckov.Api.Items.Models;
+using Duckov.Api.Maps.Models;
 
-namespace DuckovItemsApi.Containers.Models;
+namespace Duckov.Api.Containers.Models;
 
 public class Container
 {

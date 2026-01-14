@@ -1,8 +1,8 @@
-using DuckovItemsApi.Items.Dtos;
-using DuckovItemsApi.Items.Models;
-using DuckovItemsApi.Items.Repositories;
+using Duckov.Api.Items.Dtos;
+using Duckov.Api.Items.Models;
+using Duckov.Api.Items.Repositories;
 
-namespace DuckovItemsApi.Items.Services;
+namespace Duckov.Api.Items.Services;
 
 public class ItemService : IItemService
 {

@@ -1,8 +1,8 @@
-using DuckovItemsApi.Categories.Dtos;
-using DuckovItemsApi.Categories.Repositories;
-using DuckovItemsApi.Items.Services;
+using Duckov.Api.Categories.Dtos;
+using Duckov.Api.Categories.Repositories;
+using Duckov.Api.Items.Services;
 
-namespace DuckovItemsApi.Categories.Services;
+namespace Duckov.Api.Categories.Services;
 
 public class CategoriesService : ICategoriesService
 {

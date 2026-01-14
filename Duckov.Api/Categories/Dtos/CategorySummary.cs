@@ -1,4 +1,4 @@
-namespace DuckovItemsApi.Categories.Dtos;
+namespace Duckov.Api.Categories.Dtos;
 
 public class CategorySummary
 {

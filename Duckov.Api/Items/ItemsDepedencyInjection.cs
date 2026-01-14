@@ -1,7 +1,7 @@
-using DuckovItemsApi.Items.Repositories;
-using DuckovItemsApi.Items.Services;
+using Duckov.Api.Items.Repositories;
+using Duckov.Api.Items.Services;
 
-namespace DuckovItemsApi.Items;
+namespace Duckov.Api.Items;
 
 public static class ItemsDepedencyInjection
 {

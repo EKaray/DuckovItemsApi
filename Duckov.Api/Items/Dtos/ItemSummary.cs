@@ -1,4 +1,4 @@
-namespace DuckovItemsApi.Items.Dtos;
+namespace Duckov.Api.Items.Dtos;
 
 public class ItemSummary
 {

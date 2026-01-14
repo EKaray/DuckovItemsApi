@@ -1,6 +1,6 @@
-using DuckovItemsApi.Items.Models;
+using Duckov.Api.Items.Models;
 
-namespace DuckovItemsApi.Items.Repositories;
+namespace Duckov.Api.Items.Repositories;
 
 public interface IItemsRepository
 {

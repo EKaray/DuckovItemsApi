@@ -1,8 +1,8 @@
-using DuckovItemsApi.Items.Dtos;
-using DuckovItemsApi.Items.Services;
+using Duckov.Api.Items.Dtos;
+using Duckov.Api.Items.Services;
 using Microsoft.AspNetCore.Mvc;
 
-namespace DuckovItemsApi.Items.Controllers;
+namespace Duckov.Api.Items.Controllers;
 
 [ApiController]
 [Route("items")]

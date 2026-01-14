@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Text.RegularExpressions;
 
-namespace DuckovItemsApi.Items.Validations;
+namespace Duckov.Api.Items.Validations;
 
 public partial class ValidSearchTermAttribute : ValidationAttribute
 {

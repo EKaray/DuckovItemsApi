@@ -1,7 +1,7 @@
-using DuckovItemsApi.Categories.Repositories;
-using DuckovItemsApi.Categories.Services;
+using Duckov.Api.Categories.Repositories;
+using Duckov.Api.Categories.Services;
 
-namespace DuckovItemsApi.Categories;
+namespace Duckov.Api.Categories;
 
 public static class CategoriesDependencyInjection
 {

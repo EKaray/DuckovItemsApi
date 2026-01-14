@@ -1,6 +1,6 @@
-using DuckovItemsApi.Containers.Models;
+using Duckov.Api.Containers.Models;
 
-namespace DuckovItemsApi.Items.Models;
+namespace Duckov.Api.Items.Models;
 
 public class ItemSpawn
 {

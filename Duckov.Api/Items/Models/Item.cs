@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
-using DuckovItemsApi.Categories.Models;
-namespace DuckovItemsApi.Items.Models;
+using Duckov.Api.Categories.Models;
+namespace Duckov.Api.Items.Models;
 
 public class Item
 {

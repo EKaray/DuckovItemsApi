@@ -1,8 +1,8 @@
-using DuckovItemsApi.Data;
-using DuckovItemsApi.Items.Models;
+using Duckov.Api.Data;
+using Duckov.Api.Items.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace DuckovItemsApi.Items.Repositories;
+namespace Duckov.Api.Items.Repositories;
 
 public class ItemsRepository : IItemsRepository
 {

@@ -1,7 +1,7 @@
-using DuckovItemsApi.Categories;
-using DuckovItemsApi.Data;
-using DuckovItemsApi.Handlers;
-using DuckovItemsApi.Items;
+using Duckov.Api.Categories;
+using Duckov.Api.Data;
+using Duckov.Api.Handlers;
+using Duckov.Api.Items;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);

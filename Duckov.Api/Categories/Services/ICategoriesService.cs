@@ -1,6 +1,6 @@
-using DuckovItemsApi.Categories.Dtos;
+using Duckov.Api.Categories.Dtos;
 
-namespace DuckovItemsApi.Categories.Services;
+namespace Duckov.Api.Categories.Services;
 
 public interface ICategoriesService
 {

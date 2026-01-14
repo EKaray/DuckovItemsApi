@@ -1,8 +1,8 @@
-using DuckovItemsApi.Categories.Models;
-using DuckovItemsApi.Data;
+using Duckov.Api.Categories.Models;
+using Duckov.Api.Data;
 using Microsoft.EntityFrameworkCore;
 
-namespace DuckovItemsApi.Categories.Repositories;
+namespace Duckov.Api.Categories.Repositories;
 
 public class CategoriesRepository : ICategoriesRepository
 {

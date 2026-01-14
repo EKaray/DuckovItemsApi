@@ -1,6 +1,6 @@
-using DuckovItemsApi.Categories.Models;
+using Duckov.Api.Categories.Models;
 
-namespace DuckovItemsApi.Categories.Repositories;
+namespace Duckov.Api.Categories.Repositories;
 
 public interface ICategoriesRepository
 {
