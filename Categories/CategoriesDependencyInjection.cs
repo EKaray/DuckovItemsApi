@@ -7,8 +7,8 @@ public static class CategoriesDependencyInjection
 {
     public static IServiceCollection AddCategoriesDependencies(this IServiceCollection services)
     {
-        services.AddScoped<CategoriesRepository>();
-        services.AddScoped<CategoriesService>();
+        services.AddScoped<ICategoriesRepository, CategoriesRepository>();
+        services.AddScoped<ICategoriesService, CategoriesService>();
 
         return services;
     }

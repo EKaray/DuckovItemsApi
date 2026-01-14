@@ -8,9 +8,9 @@ namespace DuckovItemsApi.Items.Controllers;
 [Route("items")]
 public class ItemsController : ControllerBase
 {
-    public ItemService _itemService;
+    public IItemService _itemService;
 
-    public ItemsController(ItemService itemService)
+    public ItemsController(IItemService itemService)
     {
         _itemService = itemService;
     }

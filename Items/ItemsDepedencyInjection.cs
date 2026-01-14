@@ -7,8 +7,8 @@ public static class ItemsDepedencyInjection
 {
     public static IServiceCollection AddItemsDependencies(this IServiceCollection services)
     {
-        services.AddScoped<ItemsRepository>();
-        services.AddScoped<ItemService>();
+        services.AddScoped<IItemsRepository, ItemsRepository>();
+        services.AddScoped<IItemService, ItemService>();
 
         return services;
     }

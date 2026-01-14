@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DuckovItemsApi.Categories.Repositories;
 
-public class CategoriesRepository
+public class CategoriesRepository : ICategoriesRepository
 {
     private readonly DuckovDbContext _dbContext;
 

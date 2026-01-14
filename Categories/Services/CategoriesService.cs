@@ -4,11 +4,11 @@ using DuckovItemsApi.Items.Services;
 
 namespace DuckovItemsApi.Categories.Services;
 
-public class CategoriesService
+public class CategoriesService : ICategoriesService
 {
-    private readonly CategoriesRepository _categoriesRepository;
+    private readonly ICategoriesRepository _categoriesRepository;
 
-    public CategoriesService(CategoriesRepository categoriesRepository)
+    public CategoriesService(ICategoriesRepository categoriesRepository)
     {
         _categoriesRepository = categoriesRepository;
     }

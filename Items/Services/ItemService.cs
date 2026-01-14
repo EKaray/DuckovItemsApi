@@ -4,12 +4,12 @@ using DuckovItemsApi.Items.Repositories;
 
 namespace DuckovItemsApi.Items.Services;
 
-public class ItemService
+public class ItemService : IItemService
 {
-    private readonly ItemsRepository _itemRepository;
+    private readonly IItemsRepository _itemRepository;
     private readonly ILogger<ItemService> _logger;
 
-    public ItemService(ItemsRepository itemRepository, ILogger<ItemService> logger)
+    public ItemService(IItemsRepository itemRepository, ILogger<ItemService> logger)
     {
         _itemRepository = itemRepository;
         _logger = logger;
