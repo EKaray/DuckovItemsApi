@@ -18,4 +18,8 @@
     <Using Include="Xunit" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Duckov.Api\Duckov.Api.csproj" />
+  </ItemGroup>
+
 </Project>

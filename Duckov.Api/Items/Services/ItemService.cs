@@ -1,7 +1,9 @@
+using System.Runtime.CompilerServices;
 using Duckov.Api.Items.Dtos;
 using Duckov.Api.Items.Models;
 using Duckov.Api.Items.Repositories;
 
+[assembly: InternalsVisibleTo("Duckov.Tests")]
 namespace Duckov.Api.Items.Services;
 
 public class ItemService : IItemService
@@ -77,7 +79,7 @@ public class ItemService : IItemService
         };
     }
 
-    private static double CalculateValuePerSlot(int value, int maxQuantity, double weight)
+    internal static double CalculateValuePerSlot(int value, int maxQuantity, double weight)
     {
         // TODO: Replace these with values from the cookie
         var maxSlots = 10;
@@ -88,8 +90,12 @@ public class ItemService : IItemService
         int effectiveUnits = Math.Min(unitsBySlots, unitsByWeight);
         int effectiveSlotsUsed = (int)Math.Ceiling((double)effectiveUnits / maxQuantity);
 
-        double valuePerSlot = effectiveUnits * value / effectiveSlotsUsed;
+        if (effectiveSlotsUsed == 0)
+        {
+            return 0;
+        }
 
+        double valuePerSlot = effectiveUnits * value / effectiveSlotsUsed;
         return valuePerSlot;
     }
 }
