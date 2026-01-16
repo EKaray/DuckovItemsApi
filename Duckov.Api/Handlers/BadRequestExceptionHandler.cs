@@ -19,7 +19,7 @@ public class BadRequestExceptionHandler(ILogger<BadRequestExceptionHandler> logg
         await context.Response.WriteAsJsonAsync(new ProblemDetails
         {
             Status = StatusCodes.Status400BadRequest,
-            Title = "Internal Server Error",
+            Title = "Bad Request",
             Detail = exception.Message,
             Instance = context.Request.Path
         }, token);

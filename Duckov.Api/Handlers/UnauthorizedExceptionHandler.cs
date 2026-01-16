@@ -20,7 +20,7 @@ public class UnauthorizedExceptionHandler(ILogger<UnauthorizedExceptionHandler> 
         await context.Response.WriteAsJsonAsync(new ProblemDetails
         {
             Status = StatusCodes.Status403Forbidden,
-            Title = "Internal Server Error",
+            Title = "Unauthorized",
             Detail = exception.Message,
             Instance = context.Request.Path
         }, token);

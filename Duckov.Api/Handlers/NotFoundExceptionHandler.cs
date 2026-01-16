@@ -18,7 +18,7 @@ public class NotFoundExceptionHandler(ILogger<NotFoundExceptionHandler> logger) 
         await context.Response.WriteAsJsonAsync(new ProblemDetails
         {
             Status = StatusCodes.Status404NotFound,
-            Title = "Internal Server Error",
+            Title = "Not Found",
             Detail = exception.Message,
             Instance = context.Request.Path
         }, token);
