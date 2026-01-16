@@ -5,10 +5,7 @@ namespace Duckov.Api.Items.Dtos;
 
 public class IteamSearchQuery
 {
-    /// <summary>
-    /// Search term. Only letters, numbers, spaces, dots (.), dashes (-), and colons (:). Max length specified.
-    /// </summary>
-    [ValidSearchTerm(50)]
+    [ValidName]
     public string? Name { get; set; }
 
     [Range(1, 20)]

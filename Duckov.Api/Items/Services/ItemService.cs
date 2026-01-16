@@ -17,9 +17,21 @@ public class ItemService : IItemService
         _logger = logger;
     }
 
-    public async Task<ItemDetails?> GetById(int id)
+    public async Task CreateItem(CreateItemRequest request)
     {
-        var item = await _itemRepository.GetByIdWithIncludes(id);
+        var exists = await GetByGameId(request.GameId);
+        if (exists != null)
+        {
+            return;
+        }
+
+        var item = ItemMapper(request);
+        await _itemRepository.CreateItem(item);
+    }
+
+    public async Task<ItemDetails?> GetByGameId(int id)
+    {
+        var item = await _itemRepository.GetByGameIdWithIncludes(id);
         if (item == null)
         {
             return null;
@@ -52,11 +64,25 @@ public class ItemService : IItemService
         return itemSummaries;
     }
 
+    public static Item ItemMapper(CreateItemRequest item)
+    {
+        return new Item
+        {
+            GameId = item.GameId,
+            Name = item.Name,
+            CategoryId = item.CategoryId,
+            Value = item.Value,
+            Weight = item.Weight,
+            MaxQuantity = item.MaxQuantity,
+            Image = item.Image
+        };
+    }
+
     public static ItemSummary SummaryMapper(Item item)
     {
         return new ItemSummary
         {
-            Id = item.Id,
+            GameId = item.GameId,
             Name = item.Name,
             Category = item.Category.Name,
             ValuePerSlot = CalculateValuePerSlot(item.Value, item.MaxQuantity, item.Weight),
@@ -68,7 +94,7 @@ public class ItemService : IItemService
     {
         return new ItemDetails()
         {
-            Id = item.Id,
+            GameId = item.GameId,
             Name = item.Name,
             Category = item.Category.Name,
             Value = item.Value,

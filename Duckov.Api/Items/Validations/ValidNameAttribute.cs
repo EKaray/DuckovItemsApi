@@ -3,17 +3,19 @@ using System.Text.RegularExpressions;
 
 namespace Duckov.Api.Items.Validations;
 
-public partial class ValidSearchTermAttribute : ValidationAttribute
+public partial class ValidNameAttribute : ValidationAttribute
 {
     private static readonly Regex _regex = ValidInput();
     private readonly int _maxLength;
 
-    public ValidSearchTermAttribute(int maxLength = 50)
+    public ValidNameAttribute(int maxLength = 50)
     {
         _maxLength = maxLength;
     }
 
-
+    /// <summary>
+    /// Search term. Only letters, numbers, spaces, dots (.), dashes (-), and colons (:). Max length specified.
+    /// </summary>
     protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
     {
         if (value is null)

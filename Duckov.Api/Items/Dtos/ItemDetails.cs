@@ -2,7 +2,7 @@ namespace Duckov.Api.Items.Dtos;
 
 public class ItemDetails
 {
-    public int Id { get; init; }
+    public int GameId { get; init; }
     public required string Name { get; init; }
     public required string Category { get; init; }
 

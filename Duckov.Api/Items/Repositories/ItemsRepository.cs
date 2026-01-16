@@ -13,14 +13,20 @@ public class ItemsRepository : IItemsRepository
         _dbContext = dbContext;
     }
 
-    public async Task<Item?> GetByIdWithIncludes(int id)
+    public async Task CreateItem(Item item)
+    {
+        _dbContext.Items.Add(item);
+        await _dbContext.SaveChangesAsync();
+    }
+
+    public async Task<Item?> GetByGameIdWithIncludes(int id)
     {
         return await _dbContext.Items
             .AsNoTracking()
             .Include(item => item.Category)
             .Include(item => item.Spawns)
                 .ThenInclude(spawn => spawn.Container)
-            .FirstOrDefaultAsync(item => item.Id == id);
+            .FirstOrDefaultAsync(item => item.GameId == id);
     }
 
     // NOTE: Empty query intentionally returns all items.
