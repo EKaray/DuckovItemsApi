@@ -10,6 +10,7 @@ public static class HandlersDepedencyInjection
         services.AddExceptionHandler<BadRequestExceptionHandler>();
         services.AddExceptionHandler<UnauthorizedExceptionHandler>();
         services.AddExceptionHandler<NotFoundExceptionHandler>();
+        services.AddExceptionHandler<AlreadyExistsExceptionHandler>();
         services.AddExceptionHandler<GlobalExceptionHandler>();
 
         return services;

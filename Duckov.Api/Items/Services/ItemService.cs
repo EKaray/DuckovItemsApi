@@ -1,4 +1,5 @@
 using System.Runtime.CompilerServices;
+using Duckov.Api.Exceptions;
 using Duckov.Api.Items.Dtos;
 using Duckov.Api.Items.Models;
 using Duckov.Api.Items.Repositories;
@@ -22,7 +23,7 @@ public class ItemService : IItemService
         var exists = await GetByGameId(request.GameId);
         if (exists != null)
         {
-            return;
+            throw new AlreadyExistsException("Item", request.GameId);
         }
 
         var item = ItemMapper(request);
