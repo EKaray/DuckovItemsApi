@@ -3,9 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Duckov.Api.Handlers;
 
-public class NotFoundExceptionHandler(ILogger<NotFoundExceptionHandler> logger) : IExceptionHandler
+public class NotFoundExceptionHandler : IExceptionHandler
 {
-    private readonly ILogger<NotFoundExceptionHandler> _logger = logger;
+
 
     public async ValueTask<bool> TryHandleAsync(HttpContext context, Exception exception, CancellationToken token)
     {
