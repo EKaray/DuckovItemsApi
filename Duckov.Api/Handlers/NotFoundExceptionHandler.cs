@@ -19,7 +19,7 @@ public class NotFoundExceptionHandler(ILogger<NotFoundExceptionHandler> logger) 
         {
             Status = StatusCodes.Status404NotFound,
             Title = "Internal Server Error",
-            Detail = "An unexpected error occurred.",
+            Detail = exception.Message,
             Instance = context.Request.Path
         }, token);
 

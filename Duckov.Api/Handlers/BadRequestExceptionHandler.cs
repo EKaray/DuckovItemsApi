@@ -20,7 +20,7 @@ public class BadRequestExceptionHandler(ILogger<BadRequestExceptionHandler> logg
         {
             Status = StatusCodes.Status400BadRequest,
             Title = "Internal Server Error",
-            Detail = "An unexpected error occurred.",
+            Detail = exception.Message,
             Instance = context.Request.Path
         }, token);
 

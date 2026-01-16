@@ -21,7 +21,7 @@ public class UnauthorizedExceptionHandler(ILogger<UnauthorizedExceptionHandler> 
         {
             Status = StatusCodes.Status403Forbidden,
             Title = "Internal Server Error",
-            Detail = "An unexpected error occurred.",
+            Detail = exception.Message,
             Instance = context.Request.Path
         }, token);
 
