@@ -7,7 +7,6 @@ public static class HandlersDepedencyInjection
     {
         services.AddProblemDetails();
 
-        services.AddExceptionHandler<BadRequestExceptionHandler>();
         services.AddExceptionHandler<UnauthorizedExceptionHandler>();
         services.AddExceptionHandler<NotFoundExceptionHandler>();
         services.AddExceptionHandler<AlreadyExistsExceptionHandler>();
