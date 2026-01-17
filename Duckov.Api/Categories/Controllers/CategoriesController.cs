@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using Duckov.Api.Categories.Dtos;
 using Duckov.Api.Categories.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -5,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Duckov.Api.Categories.Controllers;
 
 [ApiController]
-[Route("Categories")]
+[Route("categories")]
 public class CategoriesController : ControllerBase
 {
     private readonly ICategoriesService _categoriesService;
@@ -24,19 +25,9 @@ public class CategoriesController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<ActionResult<CategoryWithItems>> GetByIdWithItems(int id)
+    public async Task<ActionResult<CategoryWithItems>> GetByIdWithItems([Range(1, int.MaxValue)] int id)
     {
-        if (id <= 0)
-        {
-            return BadRequest();
-        }
-
         var category = await _categoriesService.GetByIdWithItems(id);
-        if (category == null)
-        {
-            return NotFound();
-        }
-
         return Ok(category);
     }
 
@@ -46,9 +37,9 @@ public class CategoriesController : ControllerBase
     /// <returns>List of CategorySummary</returns>
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<ActionResult<IReadOnlyCollection<CategorySummary>>> GetCategories()
+    public async Task<ActionResult<IReadOnlyCollection<CategorySummary>>> GetAll()
     {
-        var categories = await _categoriesService.GetCategories();
+        var categories = await _categoriesService.GetAll();
         return Ok(categories);
     }
 }

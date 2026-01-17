@@ -5,5 +5,5 @@ namespace Duckov.Api.Categories.Services;
 public interface ICategoriesService
 {
     public Task<CategoryWithItems?> GetByIdWithItems(int id);
-    public Task<IReadOnlyCollection<CategorySummary>> GetCategories();
+    public Task<IReadOnlyCollection<CategorySummary>> GetAll();
 }

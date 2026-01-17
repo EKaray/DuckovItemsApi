@@ -17,22 +17,20 @@ public class ItemService : IItemService
         _logger = logger;
     }
 
-    public async Task CreateItem(CreateItemRequest request)
+    public async Task Create(CreateItemRequest request)
     {
-        var exists = await GetByGameId(request.GameId);
-        if (exists != null)
+        if (await _itemRepository.Exists(request.Id))
         {
-            throw new AlreadyExistsException(nameof(Item), request.GameId);
+            throw new AlreadyExistsException(nameof(Item), request.Id);
         }
 
         var item = ItemMapper.Create(request);
-        await _itemRepository.CreateItem(item);
+        await _itemRepository.Create(item);
     }
 
-    public async Task UpdateItem(int id, UpdateItemRequest request)
+    public async Task Update(int id, UpdateItemRequest request)
     {
-        var item = await _itemRepository.GetByGameIdWithIncludes(id)
-            ?? throw new KeyNotFoundException($"{nameof(Item)} with identifier '{id}' does not exist.");
+        var item = await GetByGameIdWithIncludes(id);
 
         if (request.Name is not null)
         {
@@ -64,18 +62,19 @@ public class ItemService : IItemService
             item.Image = request.Image;
         }
 
-        await _itemRepository.UpdateItem(item);
+        await _itemRepository.Update(item);
     }
 
     public async Task<ItemDetails?> GetByGameId(int id)
     {
-        var item = await _itemRepository.GetByGameIdWithIncludes(id);
-        if (item == null)
-        {
-            return null;
-        }
-
+        var item = await GetByGameIdWithIncludes(id);
         return ItemMapper.Details(item);
+    }
+
+    public async Task Delete(int id)
+    {
+        var item = await GetByGameIdWithIncludes(id);
+        await _itemRepository.Delete(item);
     }
 
     public async Task<IReadOnlyList<ItemSummary>> SearchByName(IteamSearchQuery query)
@@ -100,5 +99,11 @@ public class ItemService : IItemService
             .ToList();
 
         return itemSummaries;
+    }
+
+    private async Task<Item> GetByGameIdWithIncludes(int id)
+    {
+        return await _itemRepository.GetByGameIdWithIncludes(id)
+            ?? throw new KeyNotFoundException($"{nameof(Item)} with identifier '{id}' does not exist.");
     }
 }

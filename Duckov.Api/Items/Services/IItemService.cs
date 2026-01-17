@@ -4,9 +4,10 @@ namespace Duckov.Api.Items.Services;
 
 public interface IItemService
 {
-    public Task CreateItem(CreateItemRequest item);
+    public Task Create(CreateItemRequest request);
     public Task<ItemDetails?> GetByGameId(int id);
 
-    public Task UpdateItem(int id, UpdateItemRequest request);
+    public Task Update(int id, UpdateItemRequest request);
+    public Task Delete(int id);
     public Task<IReadOnlyList<ItemSummary>> SearchByName(IteamSearchQuery query);
 }

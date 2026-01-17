@@ -6,7 +6,7 @@ namespace Duckov.Api.Items.Dtos;
 public class CreateItemRequest
 {
     [Range(1, int.MaxValue)]
-    public required int GameId { get; init; }
+    public required int Id { get; init; }
     [ValidName]
     public required string Name { get; init; }
     [Range(1, int.MaxValue)]

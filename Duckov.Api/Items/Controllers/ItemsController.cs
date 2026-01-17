@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using Duckov.Api.Items.Dtos;
 using Duckov.Api.Items.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -22,21 +23,20 @@ public class ItemsController : ControllerBase
     /// The data required to create the item.
     /// </param>
     /// <returns>
-    /// Returns <see cref="StatusCodes.Status201Created"/> if the item was successfully created,
-    /// or <see cref="StatusCodes.Status400BadRequest"/> if the request data is invalid.
+    /// Returns <see cref="StatusCodes.Status204NoContent"/> if the item was successfully created,
+    /// or <see cref="StatusCodes.Status400BadRequest"/> if the request data is invalid,
+    /// or <see cref="StatusCodes.Status409Conflict"/> if identifier already exists.
     /// </returns>
     [HttpPost]
-    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult> CreateItem([FromQuery] CreateItemRequest request)
+    [ProducesResponseType(StatusCodes.Status409Conflict)]
+    public async Task<ActionResult> Create([FromQuery] CreateItemRequest request)
     {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest();
-        }
-
-        await _itemService.CreateItem(request);
-        return Created();
+        // ? If necessary, this could return the newly created item 
+        // ? instead of doing a separate get request
+        await _itemService.Create(request);
+        return NoContent();
     }
 
     /// <summary>
@@ -48,19 +48,16 @@ public class ItemsController : ControllerBase
     /// </param>
     /// <returns>
     /// Returns <see cref="StatusCodes.Status204NoContent"/> if the item was successfully updated,
-    /// or <see cref="StatusCodes.Status400BadRequest"/> if the request data is invalid.
+    /// or <see cref="StatusCodes.Status400BadRequest"/> if the request data is invalid,
+    /// or <see cref="StatusCodes.Status404NotFound"/> if the item does not exist.
     /// </returns>
     [HttpPatch("{id}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult> UpdateItem(int id, [FromQuery] UpdateItemRequest request)
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult> Update([Range(1, int.MaxValue)] int id, [FromQuery] UpdateItemRequest request)
     {
-        if (id <= 0 || !ModelState.IsValid)
-        {
-            return BadRequest();
-        }
-
-        await _itemService.UpdateItem(id, request);
+        await _itemService.Update(id, request);
         return NoContent();
     }
 
@@ -72,27 +69,38 @@ public class ItemsController : ControllerBase
     /// </param>
     /// <returns>
     /// Returns the <see cref="ItemDetails"/> item if found.
-    /// Returns <see cref="StatusCodes.Status400BadRequest"/> if the identifier is invalid,
+    /// or <see cref="StatusCodes.Status400BadRequest"/> if the identifier is invalid,
     /// or <see cref="StatusCodes.Status404NotFound"/> if the item does not exist.
     /// </returns>
     [HttpGet("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<ActionResult<ItemDetails>> GetById(int id)
+    public async Task<ActionResult<ItemDetails>> GetById([Range(1, int.MaxValue)] int id)
     {
-        if (id <= 0)
-        {
-            return BadRequest();
-        }
-
         var item = await _itemService.GetByGameId(id);
-        if (item == null)
-        {
-            return NotFound();
-        }
-
         return Ok(item);
+    }
+
+    /// <summary>
+    /// Deletes an item using the provided item id.
+    /// </summary>
+    /// <param name="Id">
+    /// The id required to delete the item.
+    /// </param>
+    /// <returns>
+    /// Returns <see cref="StatusCodes.Status204NoContent"/> if the item was successfully deleted,
+    /// or <see cref="StatusCodes.Status400BadRequest"/> if the identifier is invalid,
+    /// or <see cref="StatusCodes.Status404NotFound"/> if the item does not exist.
+    /// </returns>
+    [HttpDelete("{id}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult> Delete([Range(1, int.MaxValue)] int id)
+    {
+        await _itemService.Delete(id);
+        return NoContent();
     }
 
     /// <summary>
@@ -110,11 +118,6 @@ public class ItemsController : ControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<IReadOnlyList<ItemSummary>>> SearchItems([FromQuery] IteamSearchQuery query)
     {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest();
-        }
-
         var items = await _itemService.SearchByName(query);
         return Ok(items);
     }

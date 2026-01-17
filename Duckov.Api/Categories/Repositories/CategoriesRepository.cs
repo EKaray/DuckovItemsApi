@@ -21,7 +21,7 @@ public class CategoriesRepository : ICategoriesRepository
             .FirstOrDefaultAsync(category => category.Id == id);
     }
 
-    public async Task<IReadOnlyCollection<Category>> GetCategories()
+    public async Task<IReadOnlyCollection<Category>> GetAll()
     {
         var categories = await _dbContext.Categories
             .AsNoTracking()

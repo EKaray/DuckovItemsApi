@@ -13,13 +13,13 @@ public class ItemsRepository : IItemsRepository
         _dbContext = dbContext;
     }
 
-    public async Task CreateItem(Item item)
+    public async Task Create(Item item)
     {
         _dbContext.Items.Add(item);
         await _dbContext.SaveChangesAsync();
     }
 
-    public async Task UpdateItem(Item item)
+    public async Task Update(Item item)
     {
         _dbContext.Items.Update(item);
         await _dbContext.SaveChangesAsync();
@@ -35,9 +35,20 @@ public class ItemsRepository : IItemsRepository
             .FirstOrDefaultAsync(item => item.GameId == id);
     }
 
-    // NOTE: Empty query intentionally returns all items.
-    // If search behavior changes (e.g. minimum length),
-    // revisit this condition.  
+    public async Task Delete(Item item)
+    {
+        _dbContext.Items.Remove(item);
+        await _dbContext.SaveChangesAsync();
+    }
+
+    public async Task<bool> Exists(int gameId)
+    {
+        return await _dbContext.Items.AnyAsync(item => item.GameId == gameId);
+    }
+
+    // ? Empty query intentionally returns all items.
+    // ? If search behavior changes (e.g. minimum length),
+    // ? revisit this condition.  
     public async Task<IReadOnlyList<Item>> SearchWithCategory(string? query, int skip, int take)
     {
         query ??= "";

@@ -1,4 +1,5 @@
 using Duckov.Api.Categories.Dtos;
+using Duckov.Api.Categories.Models;
 using Duckov.Api.Categories.Repositories;
 using Duckov.Api.Items.Mappers;
 
@@ -15,11 +16,8 @@ public class CategoriesService : ICategoriesService
 
     public async Task<CategoryWithItems?> GetByIdWithItems(int id)
     {
-        var category = await _categoriesRepository.GetByIdWithIncludes(id);
-        if (category == null)
-        {
-            return null;
-        }
+        var category = await _categoriesRepository.GetByIdWithIncludes(id)
+        ?? throw new KeyNotFoundException($"{nameof(Category)} with identifier '{id}' does not exist.");
 
         var categoryWithItems = new CategoryWithItems
         {
@@ -31,10 +29,10 @@ public class CategoriesService : ICategoriesService
         return categoryWithItems;
     }
 
-    public async Task<IReadOnlyCollection<CategorySummary>> GetCategories()
+    public async Task<IReadOnlyCollection<CategorySummary>> GetAll()
     {
         var categories = await _categoriesRepository
-            .GetCategories();
+            .GetAll();
 
         var categorySummaries = categories
             .Select(category => new CategorySummary

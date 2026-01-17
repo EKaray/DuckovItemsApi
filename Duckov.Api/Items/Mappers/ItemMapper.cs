@@ -6,17 +6,17 @@ namespace Duckov.Api.Items.Mappers;
 
 public static class ItemMapper
 {
-    public static Item Create(CreateItemRequest item)
+    public static Item Create(CreateItemRequest request)
     {
         return new Item
         {
-            GameId = item.GameId,
-            Name = item.Name,
-            CategoryId = item.CategoryId,
-            Value = item.Value,
-            Weight = item.Weight,
-            MaxQuantity = item.MaxQuantity,
-            Image = item.Image
+            GameId = request.Id,
+            Name = request.Name,
+            CategoryId = request.CategoryId,
+            Value = request.Value,
+            Weight = request.Weight,
+            MaxQuantity = request.MaxQuantity,
+            Image = request.Image
         };
     }
 
@@ -24,7 +24,7 @@ public static class ItemMapper
     {
         return new ItemSummary
         {
-            GameId = item.GameId,
+            Id = item.GameId,
             Name = item.Name,
             Category = item.Category.Name,
             ValuePerSlot = ValueCalculator.CalculateValuePerSlot(item.Value, item.MaxQuantity, item.Weight),
@@ -36,11 +36,12 @@ public static class ItemMapper
     {
         return new ItemDetails()
         {
-            GameId = item.GameId,
+            Id = item.GameId,
             Name = item.Name,
             Category = item.Category.Name,
             Value = item.Value,
             Weight = item.Weight,
+            MaxQuantity = item.MaxQuantity,
             ValuePerSlot = ValueCalculator.CalculateValuePerSlot(item.Value, item.MaxQuantity, item.Weight),
             Image = item.Image,
             Containers = [.. item.Spawns.Select(x => x.Container.Name)]
