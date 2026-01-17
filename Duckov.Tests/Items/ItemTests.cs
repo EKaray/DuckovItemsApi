@@ -1,4 +1,4 @@
-using Duckov.Api.Items.Services;
+using Duckov.Api.Items.Helpers;
 
 namespace Duckov.Tests.Items;
 
@@ -13,7 +13,7 @@ public class ItemTests
         double weight = 2;
 
         // Act
-        double result = ItemService.CalculateValuePerSlot(value, maxQuantity, weight);
+        double result = ValueCalculator.CalculateValuePerSlot(value, maxQuantity, weight);
 
         // Assert
         Assert.Equal(440, result);
@@ -28,7 +28,7 @@ public class ItemTests
         double weight = 50; // weight higher than maxWeight
 
         // Act
-        double result = ItemService.CalculateValuePerSlot(value, maxQuantity, weight);
+        double result = ValueCalculator.CalculateValuePerSlot(value, maxQuantity, weight);
 
         // unitsByWeight = floor(45 / 50) = 0
         // effectiveUnits = min(50, 0) = 0
@@ -48,7 +48,7 @@ public class ItemTests
         double weight = 2;
 
         // Act
-        double result = ItemService.CalculateValuePerSlot(value, maxQuantity, weight);
+        double result = ValueCalculator.CalculateValuePerSlot(value, maxQuantity, weight);
 
         // unitsBySlots = 10*1 = 10
         // unitsByWeight = floor(45/2) = 22
@@ -69,7 +69,7 @@ public class ItemTests
         double weight = 9; // 45 / 9 = 5 unitsByWeight
 
         // Act
-        double result = ItemService.CalculateValuePerSlot(value, maxQuantity, weight);
+        double result = ValueCalculator.CalculateValuePerSlot(value, maxQuantity, weight);
 
         // unitsBySlots = 10*5 = 50
         // unitsByWeight = floor(45/9) = 5

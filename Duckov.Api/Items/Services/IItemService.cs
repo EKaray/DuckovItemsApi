@@ -6,5 +6,7 @@ public interface IItemService
 {
     public Task CreateItem(CreateItemRequest item);
     public Task<ItemDetails?> GetByGameId(int id);
+
+    public Task UpdateItem(int id, UpdateItemRequest request);
     public Task<IReadOnlyList<ItemSummary>> SearchByName(IteamSearchQuery query);
 }

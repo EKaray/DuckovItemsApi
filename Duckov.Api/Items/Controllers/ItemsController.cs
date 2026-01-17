@@ -28,7 +28,7 @@ public class ItemsController : ControllerBase
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<ItemDetails>> CreateItem([FromQuery] CreateItemRequest request)
+    public async Task<ActionResult> CreateItem([FromQuery] CreateItemRequest request)
     {
         if (!ModelState.IsValid)
         {
@@ -37,6 +37,31 @@ public class ItemsController : ControllerBase
 
         await _itemService.CreateItem(request);
         return Created();
+    }
+
+    /// <summary>
+    /// Updates an item using the provided item data.
+    /// </summary>
+    /// <param name="Id">
+    /// <param name="request">
+    /// The data required to update the item.
+    /// </param>
+    /// <returns>
+    /// Returns <see cref="StatusCodes.Status204NoContent"/> if the item was successfully updated,
+    /// or <see cref="StatusCodes.Status400BadRequest"/> if the request data is invalid.
+    /// </returns>
+    [HttpPatch("{id}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult> UpdateItem(int id, [FromQuery] UpdateItemRequest request)
+    {
+        if (id <= 0 || !ModelState.IsValid)
+        {
+            return BadRequest();
+        }
+
+        await _itemService.UpdateItem(id, request);
+        return NoContent();
     }
 
     /// <summary>

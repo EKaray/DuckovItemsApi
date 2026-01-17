@@ -1,6 +1,6 @@
 using Duckov.Api.Categories.Dtos;
 using Duckov.Api.Categories.Repositories;
-using Duckov.Api.Items.Services;
+using Duckov.Api.Items.Mappers;
 
 namespace Duckov.Api.Categories.Services;
 
@@ -25,7 +25,7 @@ public class CategoriesService : ICategoriesService
         {
             Id = category.Id,
             Name = category.Name,
-            Items = category.Items == null ? [] : [.. category.Items.Select(ItemService.SummaryMapper)]
+            Items = category.Items == null ? [] : [.. category.Items.Select(ItemMapper.Summary)]
         };
 
         return categoryWithItems;

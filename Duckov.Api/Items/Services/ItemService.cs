@@ -1,10 +1,9 @@
-using System.Runtime.CompilerServices;
 using Duckov.Api.Exceptions;
 using Duckov.Api.Items.Dtos;
+using Duckov.Api.Items.Mappers;
 using Duckov.Api.Items.Models;
 using Duckov.Api.Items.Repositories;
 
-[assembly: InternalsVisibleTo("Duckov.Tests")]
 namespace Duckov.Api.Items.Services;
 
 public class ItemService : IItemService
@@ -23,11 +22,49 @@ public class ItemService : IItemService
         var exists = await GetByGameId(request.GameId);
         if (exists != null)
         {
-            throw new AlreadyExistsException("Item", request.GameId);
+            throw new AlreadyExistsException(nameof(Item), request.GameId);
         }
 
-        var item = ItemMapper(request);
+        var item = ItemMapper.Create(request);
         await _itemRepository.CreateItem(item);
+    }
+
+    public async Task UpdateItem(int id, UpdateItemRequest request)
+    {
+        var item = await _itemRepository.GetByGameIdWithIncludes(id)
+            ?? throw new KeyNotFoundException($"{nameof(Item)} with identifier '{id}' does not exist.");
+
+        if (request.Name is not null)
+        {
+            item.Name = request.Name;
+        }
+
+        if (request.CategoryId.HasValue)
+        {
+            item.CategoryId = request.CategoryId.Value;
+        }
+
+        if (request.Value.HasValue)
+        {
+            item.Value = request.Value.Value;
+        }
+
+        if (request.Weight.HasValue)
+        {
+            item.Weight = request.Weight.Value;
+        }
+
+        if (request.MaxQuantity.HasValue)
+        {
+            item.MaxQuantity = request.MaxQuantity.Value;
+        }
+
+        if (request.Image is not null)
+        {
+            item.Image = request.Image;
+        }
+
+        await _itemRepository.UpdateItem(item);
     }
 
     public async Task<ItemDetails?> GetByGameId(int id)
@@ -38,7 +75,7 @@ public class ItemService : IItemService
             return null;
         }
 
-        return DetailsMapper(item);
+        return ItemMapper.Details(item);
     }
 
     public async Task<IReadOnlyList<ItemSummary>> SearchByName(IteamSearchQuery query)
@@ -59,70 +96,9 @@ public class ItemService : IItemService
         }
 
         var itemSummaries = items
-            .Select(SummaryMapper)
+            .Select(ItemMapper.Summary)
             .ToList();
 
         return itemSummaries;
-    }
-
-    public static Item ItemMapper(CreateItemRequest item)
-    {
-        return new Item
-        {
-            GameId = item.GameId,
-            Name = item.Name,
-            CategoryId = item.CategoryId,
-            Value = item.Value,
-            Weight = item.Weight,
-            MaxQuantity = item.MaxQuantity,
-            Image = item.Image
-        };
-    }
-
-    public static ItemSummary SummaryMapper(Item item)
-    {
-        return new ItemSummary
-        {
-            GameId = item.GameId,
-            Name = item.Name,
-            Category = item.Category.Name,
-            ValuePerSlot = CalculateValuePerSlot(item.Value, item.MaxQuantity, item.Weight),
-            Image = item.Image
-        };
-    }
-
-    public static ItemDetails DetailsMapper(Item item)
-    {
-        return new ItemDetails()
-        {
-            GameId = item.GameId,
-            Name = item.Name,
-            Category = item.Category.Name,
-            Value = item.Value,
-            Weight = item.Weight,
-            ValuePerSlot = CalculateValuePerSlot(item.Value, item.MaxQuantity, item.Weight),
-            Image = item.Image,
-            Containers = [.. item.Spawns.Select(x => x.Container.Name)]
-        };
-    }
-
-    internal static double CalculateValuePerSlot(int value, int maxQuantity, double weight)
-    {
-        // TODO: Replace these with values from the cookie
-        var maxSlots = 10;
-        var maxWeight = 45;
-
-        int unitsBySlots = maxSlots * maxQuantity;
-        int unitsByWeight = (int)Math.Floor(maxWeight / weight);
-        int effectiveUnits = Math.Min(unitsBySlots, unitsByWeight);
-        int effectiveSlotsUsed = (int)Math.Ceiling((double)effectiveUnits / maxQuantity);
-
-        if (effectiveSlotsUsed == 0)
-        {
-            return 0;
-        }
-
-        double valuePerSlot = effectiveUnits * value / effectiveSlotsUsed;
-        return valuePerSlot;
     }
 }

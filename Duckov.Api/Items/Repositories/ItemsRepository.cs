@@ -19,6 +19,12 @@ public class ItemsRepository : IItemsRepository
         await _dbContext.SaveChangesAsync();
     }
 
+    public async Task UpdateItem(Item item)
+    {
+        _dbContext.Items.Update(item);
+        await _dbContext.SaveChangesAsync();
+    }
+
     public async Task<Item?> GetByGameIdWithIncludes(int id)
     {
         return await _dbContext.Items
