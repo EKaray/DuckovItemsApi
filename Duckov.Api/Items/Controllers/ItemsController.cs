@@ -78,7 +78,7 @@ public class ItemsController : ControllerBase
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<ItemDetails>> GetById([Range(1, int.MaxValue)] int id)
     {
-        var item = await _itemService.GetByGameId(id);
+        var item = await _itemService.GetBySku(id);
         return Ok(item);
     }
 

@@ -10,7 +10,7 @@ public static class ItemMapper
     {
         return new Item
         {
-            GameId = request.Id,
+            Sku = request.Id,
             Name = request.Name,
             CategoryId = request.CategoryId,
             Value = request.Value,
@@ -24,7 +24,7 @@ public static class ItemMapper
     {
         return new ItemSummary
         {
-            Id = item.GameId,
+            Id = item.Sku,
             Name = item.Name,
             Category = item.Category.Name,
             ValuePerSlot = ValueCalculator.CalculateValuePerSlot(item.Value, item.MaxQuantity, item.Weight),
@@ -36,7 +36,7 @@ public static class ItemMapper
     {
         return new ItemDetails()
         {
-            Id = item.GameId,
+            Id = item.Sku,
             Name = item.Name,
             Category = item.Category.Name,
             Value = item.Value,
@@ -44,7 +44,7 @@ public static class ItemMapper
             MaxQuantity = item.MaxQuantity,
             ValuePerSlot = ValueCalculator.CalculateValuePerSlot(item.Value, item.MaxQuantity, item.Weight),
             Image = item.Image,
-            Containers = [.. item.Spawns.Select(x => x.Container.Name)]
+            Containers = [.. item.Locations.Select(x => x.Container.Name)]
         };
     }
 }

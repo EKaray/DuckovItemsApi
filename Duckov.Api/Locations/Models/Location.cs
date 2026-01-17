@@ -1,8 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace Duckov.Api.Maps.Models;
+namespace Duckov.Api.Locations.Models;
 
-public class Map
+public class Location
 {
     public int Id { get; set; }
 

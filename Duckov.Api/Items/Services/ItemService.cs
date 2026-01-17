@@ -30,7 +30,7 @@ public class ItemService : IItemService
 
     public async Task Update(int id, UpdateItemRequest request)
     {
-        var item = await GetByGameIdWithIncludes(id);
+        var item = await GetBySkuWithIncludes(id);
 
         if (request.Name is not null)
         {
@@ -65,15 +65,15 @@ public class ItemService : IItemService
         await _itemRepository.Update(item);
     }
 
-    public async Task<ItemDetails?> GetByGameId(int id)
+    public async Task<ItemDetails?> GetBySku(int id)
     {
-        var item = await GetByGameIdWithIncludes(id);
+        var item = await GetBySkuWithIncludes(id);
         return ItemMapper.Details(item);
     }
 
     public async Task Delete(int id)
     {
-        var item = await GetByGameIdWithIncludes(id);
+        var item = await GetBySkuWithIncludes(id);
         await _itemRepository.Delete(item);
     }
 
@@ -101,9 +101,9 @@ public class ItemService : IItemService
         return itemSummaries;
     }
 
-    private async Task<Item> GetByGameIdWithIncludes(int id)
+    private async Task<Item> GetBySkuWithIncludes(int id)
     {
-        return await _itemRepository.GetByGameIdWithIncludes(id)
+        return await _itemRepository.GetBySkuWithIncludes(id)
             ?? throw new KeyNotFoundException($"{nameof(Item)} with identifier '{id}' does not exist.");
     }
 }

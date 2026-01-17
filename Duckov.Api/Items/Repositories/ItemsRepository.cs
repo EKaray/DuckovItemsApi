@@ -25,14 +25,14 @@ public class ItemsRepository : IItemsRepository
         await _dbContext.SaveChangesAsync();
     }
 
-    public async Task<Item?> GetByGameIdWithIncludes(int id)
+    public async Task<Item?> GetBySkuWithIncludes(int id)
     {
         return await _dbContext.Items
             .AsNoTracking()
             .Include(item => item.Category)
-            .Include(item => item.Spawns)
+            .Include(item => item.Locations)
                 .ThenInclude(spawn => spawn.Container)
-            .FirstOrDefaultAsync(item => item.GameId == id);
+            .FirstOrDefaultAsync(item => item.Sku == id);
     }
 
     public async Task Delete(Item item)
@@ -41,9 +41,9 @@ public class ItemsRepository : IItemsRepository
         await _dbContext.SaveChangesAsync();
     }
 
-    public async Task<bool> Exists(int gameId)
+    public async Task<bool> Exists(int sku)
     {
-        return await _dbContext.Items.AnyAsync(item => item.GameId == gameId);
+        return await _dbContext.Items.AnyAsync(item => item.Sku == sku);
     }
 
     // ? Empty query intentionally returns all items.

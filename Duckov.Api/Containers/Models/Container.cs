@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using Duckov.Api.Items.Models;
-using Duckov.Api.Maps.Models;
+using Duckov.Api.Locations.Models;
 
 namespace Duckov.Api.Containers.Models;
 
@@ -12,8 +12,8 @@ public class Container
     [MaxLength(100)]
     public required string Name { get; set; }
 
-    public int? MapId { get; set; }
-    public Map? Map { get; set; }
+    public int? LocationId { get; set; }
+    public Location? Location { get; set; }
 
-    public ICollection<ItemSpawn> ItemSpawns { get; set; } = [];
+    public ICollection<ItemLocation> ItemLocations { get; set; } = [];
 }

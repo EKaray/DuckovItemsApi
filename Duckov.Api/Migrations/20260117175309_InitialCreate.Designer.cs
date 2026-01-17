@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Duckov.Api.Migrations
 {
     [DbContext(typeof(DuckovDbContext))]
-    [Migration("20260116185932_SetItemGameIdToUnique")]
-    partial class SetItemGameIdToUnique
+    [Migration("20260117175309_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -42,7 +42,7 @@ namespace Duckov.Api.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("MapId")
+                    b.Property<int?>("LocationId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Name")
@@ -52,7 +52,7 @@ namespace Duckov.Api.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("MapId");
+                    b.HasIndex("LocationId");
 
                     b.ToTable("Containers");
                 });
@@ -66,9 +66,6 @@ namespace Duckov.Api.Migrations
                     b.Property<int>("CategoryId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("GameId")
-                        .HasColumnType("INTEGER");
-
                     b.Property<string>("Image")
                         .HasColumnType("TEXT");
 
@@ -80,6 +77,9 @@ namespace Duckov.Api.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("TEXT");
 
+                    b.Property<int>("Sku")
+                        .HasColumnType("INTEGER");
+
                     b.Property<int>("Value")
                         .HasColumnType("INTEGER");
 
@@ -90,13 +90,13 @@ namespace Duckov.Api.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.HasIndex("GameId")
+                    b.HasIndex("Sku")
                         .IsUnique();
 
                     b.ToTable("Items");
                 });
 
-            modelBuilder.Entity("Duckov.Api.Items.Models.ItemSpawn", b =>
+            modelBuilder.Entity("Duckov.Api.Items.Models.ItemLocation", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -105,10 +105,10 @@ namespace Duckov.Api.Migrations
                     b.Property<int>("ContainerId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("GameId")
+                    b.Property<int>("ItemId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("ItemId")
+                    b.Property<int>("Sku")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
@@ -117,10 +117,10 @@ namespace Duckov.Api.Migrations
 
                     b.HasIndex("ItemId");
 
-                    b.ToTable("ItemSpawns");
+                    b.ToTable("ItemLocations");
                 });
 
-            modelBuilder.Entity("Duckov.Api.Maps.Models.Map", b =>
+            modelBuilder.Entity("Duckov.Api.Locations.Models.Location", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -133,16 +133,16 @@ namespace Duckov.Api.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Maps");
+                    b.ToTable("Locations");
                 });
 
             modelBuilder.Entity("Duckov.Api.Containers.Models.Container", b =>
                 {
-                    b.HasOne("Duckov.Api.Maps.Models.Map", "Map")
+                    b.HasOne("Duckov.Api.Locations.Models.Location", "Location")
                         .WithMany()
-                        .HasForeignKey("MapId");
+                        .HasForeignKey("LocationId");
 
-                    b.Navigation("Map");
+                    b.Navigation("Location");
                 });
 
             modelBuilder.Entity("Duckov.Api.Items.Models.Item", b =>
@@ -156,16 +156,16 @@ namespace Duckov.Api.Migrations
                     b.Navigation("Category");
                 });
 
-            modelBuilder.Entity("Duckov.Api.Items.Models.ItemSpawn", b =>
+            modelBuilder.Entity("Duckov.Api.Items.Models.ItemLocation", b =>
                 {
                     b.HasOne("Duckov.Api.Containers.Models.Container", "Container")
-                        .WithMany("ItemSpawns")
+                        .WithMany("ItemLocations")
                         .HasForeignKey("ContainerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Duckov.Api.Items.Models.Item", "Item")
-                        .WithMany("Spawns")
+                        .WithMany("Locations")
                         .HasForeignKey("ItemId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -182,12 +182,12 @@ namespace Duckov.Api.Migrations
 
             modelBuilder.Entity("Duckov.Api.Containers.Models.Container", b =>
                 {
-                    b.Navigation("ItemSpawns");
+                    b.Navigation("ItemLocations");
                 });
 
             modelBuilder.Entity("Duckov.Api.Items.Models.Item", b =>
                 {
-                    b.Navigation("Spawns");
+                    b.Navigation("Locations");
                 });
 #pragma warning restore 612, 618
         }

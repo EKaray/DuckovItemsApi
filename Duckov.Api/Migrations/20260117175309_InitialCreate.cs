@@ -5,7 +5,7 @@
 namespace Duckov.Api.Migrations
 {
     /// <inheritdoc />
-    public partial class SetItemGameIdToUnique : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -24,7 +24,7 @@ namespace Duckov.Api.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Maps",
+                name: "Locations",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
@@ -33,7 +33,7 @@ namespace Duckov.Api.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Maps", x => x.Id);
+                    table.PrimaryKey("PK_Locations", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -42,7 +42,7 @@ namespace Duckov.Api.Migrations
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    GameId = table.Column<int>(type: "INTEGER", nullable: false),
+                    Sku = table.Column<int>(type: "INTEGER", nullable: false),
                     Name = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
                     CategoryId = table.Column<int>(type: "INTEGER", nullable: false),
                     Value = table.Column<int>(type: "INTEGER", nullable: false),
@@ -68,39 +68,39 @@ namespace Duckov.Api.Migrations
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Name = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
-                    MapId = table.Column<int>(type: "INTEGER", nullable: true)
+                    LocationId = table.Column<int>(type: "INTEGER", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Containers", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Containers_Maps_MapId",
-                        column: x => x.MapId,
-                        principalTable: "Maps",
+                        name: "FK_Containers_Locations_LocationId",
+                        column: x => x.LocationId,
+                        principalTable: "Locations",
                         principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
-                name: "ItemSpawns",
+                name: "ItemLocations",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    GameId = table.Column<int>(type: "INTEGER", nullable: false),
+                    Sku = table.Column<int>(type: "INTEGER", nullable: false),
                     ItemId = table.Column<int>(type: "INTEGER", nullable: false),
                     ContainerId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ItemSpawns", x => x.Id);
+                    table.PrimaryKey("PK_ItemLocations", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ItemSpawns_Containers_ContainerId",
+                        name: "FK_ItemLocations_Containers_ContainerId",
                         column: x => x.ContainerId,
                         principalTable: "Containers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ItemSpawns_Items_ItemId",
+                        name: "FK_ItemLocations_Items_ItemId",
                         column: x => x.ItemId,
                         principalTable: "Items",
                         principalColumn: "Id",
@@ -108,9 +108,19 @@ namespace Duckov.Api.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Containers_MapId",
+                name: "IX_Containers_LocationId",
                 table: "Containers",
-                column: "MapId");
+                column: "LocationId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ItemLocations_ContainerId",
+                table: "ItemLocations",
+                column: "ContainerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ItemLocations_ItemId",
+                table: "ItemLocations",
+                column: "ItemId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Items_CategoryId",
@@ -118,27 +128,17 @@ namespace Duckov.Api.Migrations
                 column: "CategoryId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Items_GameId",
+                name: "IX_Items_Sku",
                 table: "Items",
-                column: "GameId",
+                column: "Sku",
                 unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ItemSpawns_ContainerId",
-                table: "ItemSpawns",
-                column: "ContainerId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ItemSpawns_ItemId",
-                table: "ItemSpawns",
-                column: "ItemId");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "ItemSpawns");
+                name: "ItemLocations");
 
             migrationBuilder.DropTable(
                 name: "Containers");
@@ -147,7 +147,7 @@ namespace Duckov.Api.Migrations
                 name: "Items");
 
             migrationBuilder.DropTable(
-                name: "Maps");
+                name: "Locations");
 
             migrationBuilder.DropTable(
                 name: "Categories");
