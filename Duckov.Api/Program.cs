@@ -1,48 +1,35 @@
+using DotNetEnv;
 using Duckov.Api.Categories;
-using Duckov.Api.Data;
+using Duckov.Api.Extensions;
 using Duckov.Api.Handlers;
 using Duckov.Api.Items;
-using Microsoft.EntityFrameworkCore;
+using Duckov.Api.Logins;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Environment
+Env.Load(".env");
+builder.Configuration.AddEnvironmentVariables();
+
+// Core framework services
 builder.Services.AddControllers();
+builder.Services.AddSwagger();
+builder.Services.AddOptions(builder.Configuration);
+builder.Services.AddJwtAuthentication(builder.Configuration);
+builder.Services.AddDatabase(builder.Configuration, builder.Environment);
 
-// Add services to the container.
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
+// App dependencies
 builder.Services.AddItemsDependencies();
 builder.Services.AddCategoriesDependencies();
-
+builder.Services.AddLoginsDependencies();
 builder.Services.AddExceptionHandlers();
-
-builder.Services.AddDbContext<DuckovDbContext>(options =>
-{
-    var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-
-    if (builder.Environment.IsDevelopment())
-    {
-        var folderPath = Path.Combine(builder.Environment.ContentRootPath, "App_Data");
-        Directory.CreateDirectory(folderPath); // Ensure folder exists
-    }
-
-    options.UseSqlite(connectionString);
-});
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
-
-app.UseHttpsRedirection();
+// Middleware
+app.UseSecurity();
+app.UseSwaggerIfDevelopment();
 app.UseExceptionHandler();
-
 app.MapControllers();
 
 app.Run();

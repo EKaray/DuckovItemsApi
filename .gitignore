@@ -24,3 +24,4 @@ packages/
 
 # Data
 App_Data/
+.env

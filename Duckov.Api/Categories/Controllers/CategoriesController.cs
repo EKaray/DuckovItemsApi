@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Duckov.Api.Categories.Controllers;
 
 [ApiController]
-[Route("categories")]
+[Route("api/categories")]
 public class CategoriesController : ControllerBase
 {
     private readonly ICategoriesService _categoriesService;

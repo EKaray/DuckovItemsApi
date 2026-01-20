@@ -1,12 +1,13 @@
 using System.ComponentModel.DataAnnotations;
 using Duckov.Api.Items.Dtos;
 using Duckov.Api.Items.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Duckov.Api.Items.Controllers;
 
 [ApiController]
-[Route("items")]
+[Route("api/items")]
 public class ItemsController : ControllerBase
 {
     public IItemService _itemService;
@@ -27,6 +28,7 @@ public class ItemsController : ControllerBase
     /// or <see cref="StatusCodes.Status400BadRequest"/> if the request data is invalid,
     /// or <see cref="StatusCodes.Status409Conflict"/> if identifier already exists.
     /// </returns>
+    [Authorize(Roles = "Admin")]
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -51,6 +53,7 @@ public class ItemsController : ControllerBase
     /// or <see cref="StatusCodes.Status400BadRequest"/> if the request data is invalid,
     /// or <see cref="StatusCodes.Status404NotFound"/> if the item does not exist.
     /// </returns>
+    [Authorize(Roles = "Admin")]
     [HttpPatch("{id}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -93,6 +96,7 @@ public class ItemsController : ControllerBase
     /// or <see cref="StatusCodes.Status400BadRequest"/> if the identifier is invalid,
     /// or <see cref="StatusCodes.Status404NotFound"/> if the item does not exist.
     /// </returns>
+    [Authorize(Roles = "Admin")]
     [HttpDelete("{id}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
